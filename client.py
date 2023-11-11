@@ -1,10 +1,10 @@
 import socket
-import keyboard
-import time
+import keyboard as kb
+
 
 def main():
-    host = "127.0.0.1"  # Server IP address
-    port = 12346       # Server port
+    host = "192.168.23.1"  # Server IP address
+    port = 12346  # Server port
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((host, port))
@@ -17,13 +17,21 @@ def main():
             if not data:
                 break
             else:
-                key = data.decode()
-                print(key)
-                keyboard.press_and_release(key)
+                try:
+                    is_pressed, key = data.decode().split(",")
+                    if is_pressed == "True":
+                        kb.press(key)
+                    else:
+                        kb.release(key)
+                except:
+                    print(key)
+
+
     except KeyboardInterrupt:
         pass
 
     client_socket.close()
+
 
 if __name__ == "__main__":
     main()
