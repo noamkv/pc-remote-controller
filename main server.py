@@ -1,15 +1,22 @@
-import keyboard
+import keyboard as kb
 import socket
+from pynput.keyboard import Listener
+
 
 def on_key_event(client_socket):
     def callback(e):
-        if e.event_type == keyboard.KEY_DOWN:
+        if e.event_type == kb.KEY_DOWN:
             key_event = f"Key {e.name} was pressed"
             print(key_event)
-            client_socket.send(e.name.encode())
-            keyboard.unhook_all_hotkeys()
+            client_socket.send(("True," + e.name).encode())
 
+        elif e.event_type == kb.KEY_UP:
+            key_event = f"Key {e.name} was released"
+            print(key_event)
+            client_socket.send(("False," + e.name).encode())
     return callback
+
+
 
 def main():
     # Set up the server
@@ -24,7 +31,7 @@ def main():
     client_socket, client_address = server_socket.accept()
     print(f"Connection established with {client_address}")
 
-    keyboard.hook(on_key_event(client_socket))
+    kb.hook(on_key_event(client_socket))
 
     try:
         while True:
@@ -36,4 +43,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main()A
