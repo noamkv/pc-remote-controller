@@ -1,21 +1,17 @@
+import keyboard
 import keyboard as kb
 import socket
-from pynput.keyboard import Listener
-
+import time
 
 def on_key_event(client_socket):
     def callback(e):
+
         if e.event_type == kb.KEY_DOWN:
-            key_event = f"Key {e.name} was pressed"
-            print(key_event)
             client_socket.send(("True," + e.name).encode())
 
         elif e.event_type == kb.KEY_UP:
-            key_event = f"Key {e.name} was released"
-            print(key_event)
             client_socket.send(("False," + e.name).encode())
     return callback
-
 
 
 def main():
@@ -35,7 +31,9 @@ def main():
 
     try:
         while True:
-            pass  # Keep the program running
+            time.sleep(0.01)
+            if keyboard.is_pressed("esc"):
+                break
     except KeyboardInterrupt:
         pass
 
@@ -43,4 +41,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()A
+    main()
